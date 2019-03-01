@@ -74,10 +74,16 @@ class Boid {
     }
 
     show() {
-        stroke(300);
-        noFill();
-        triangle(this.position.x-5, this.position.y+10,
-            this.position.x, this.position.y,  
-            this.position.x+5, this.position.y+10);
+        // triangles (lil paper planes)
+        // TODO: change background back to white
+        // stroke(300);
+        // noFill();
+        // triangle(this.position.x-5, this.position.y+15,
+        //     this.position.x, this.position.y,  
+        //     this.position.x+5, this.position.y+15);
+
+        strokeWeight(5);
+        stroke(0);
+        point(this.position.x, this.position.y);
     }
 }

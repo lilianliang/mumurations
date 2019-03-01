@@ -7,13 +7,13 @@ function setup() {
     alignSlider = createSlider(0, 5, 1, 0.1);
     cohesionSlider = createSlider(0, 5, 1, 0.1);
     separationSlider = createSlider(0, 5, 1, 0.1);
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
         flock.push(new Boid());
     }
 }
 
 function draw() {
-    background(51);
+    background(300);
     for (let boid of flock) {
         boid.edges();
         boid.flock(flock);
