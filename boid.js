@@ -22,7 +22,7 @@ class Boid {
     }
 
     applyForce(boids, force) {
-        let perceptionRadius = 50;
+        let perceptionRadius = 40;
         let steering = createVector();
         let total = 0;
         for (let other of boids) {
@@ -74,8 +74,10 @@ class Boid {
     }
 
     show() {
-        strokeWeight(8);
         stroke(300);
-        point(this.position.x, this.position.y);
+        noFill();
+        triangle(this.position.x-5, this.position.y+10,
+            this.position.x, this.position.y,  
+            this.position.x+5, this.position.y+10);
     }
 }
