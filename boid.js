@@ -21,62 +21,30 @@ class Boid {
         }
     }
 
-    align(boids) {
+    applyForce(boids, force) {
         let perceptionRadius = 50;
         let steering = createVector();
         let total = 0;
         for (let other of boids) {
             let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
             if (other != this && d < perceptionRadius) {
-                steering.add(other.velocity);
+                if (force == "align") {
+                    steering.add(other.velocity);
+                } else if (force == "cohesion") {
+                    steering.add(other.position);
+                } else if (force == "separation") {
+                    let diff = p5.Vector.sub(this.position, other.position);
+                    diff.div(Math.pow(d, 2));
+                    steering.add(diff);
+                }
                 total++;
             }
         }
         if (total > 0) {
             steering.div(total);
-            steering.setMag(this.maxSpeed);
-            steering.sub(this.velocity);
-            steering.limit(this.maxForce);
-        }
-        return steering;
-    }
-
-    cohesion(boids) {
-        let perceptionRadius = 50;
-        let steering = createVector();
-        let total = 0;
-        for (let other of boids) {
-            let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
-            if (other != this && d < perceptionRadius) {
-                steering.add(other.position);
-                total++;
+            if (force == "cohesion") {
+                steering.sub(this.position);
             }
-        }
-        if (total > 0) {
-            steering.div(total);
-            steering.sub(this.position);
-            steering.setMag(this.maxSpeed);
-            steering.sub(this.velocity);
-            steering.limit(this.maxForce);
-        }
-        return steering;
-    }
-
-    separation(boids) {
-        let perceptionRadius = 50;
-        let steering = createVector();
-        let total = 0;
-        for (let other of boids) {
-            let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
-            if (other != this && d < perceptionRadius) {
-                let diff = p5.Vector.sub(this.position, other.position);
-                diff.div(Math.pow(d, 2));
-                steering.add(diff);
-                total++;
-            }
-        }
-        if (total > 0) {
-            steering.div(total);
             steering.setMag(this.maxSpeed);
             steering.sub(this.velocity);
             steering.limit(this.maxForce);
@@ -85,9 +53,9 @@ class Boid {
     }
 
     flock(boids) {
-        let alignment = this.align(boids);
-        let cohesion = this.cohesion(boids);
-        let separation = this.separation(boids);
+        let alignment = this.applyForce(boids, "align");
+        let cohesion = this.applyForce(boids, "cohesion");
+        let separation = this.applyForce(boids, "separation");
 
         alignment.mult(alignSlider.value());
         cohesion.mult(cohesionSlider.value());
