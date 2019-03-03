@@ -4,8 +4,8 @@ class Boid {
         this.velocity = p5.Vector.random2D();
         this.velocity.setMag(random(2, 4));
         this.acceleration = createVector();
-        this.maxForce = 0.5;
-        this.maxSpeed = 5;
+        this.maxForce = maxForceSlider.value(); // 0.5
+        this.maxSpeed = maxSpeedSlider.value(); // 5
     }
 
     edges() {
@@ -22,7 +22,7 @@ class Boid {
     }
 
     applyForce(boids, force) {
-        let perceptionRadius = 40;
+        let perceptionRadius = radiusSlider.value(); // 30
         let steering = createVector();
         let total = 0;
         for (let other of boids) {
