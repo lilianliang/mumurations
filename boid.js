@@ -4,8 +4,9 @@ class Boid {
         this.velocity = p5.Vector.random2D();
         this.velocity.setMag(random(2, 4));
         this.acceleration = createVector();
-        this.maxForce = maxForceSlider.value(); // 0.5
-        this.maxSpeed = maxSpeedSlider.value(); // 5
+        this.maxForce = 0.5
+        this.maxSpeed = 5
+        this.perceptionRadius = 50
     }
 
     edges() {
@@ -22,12 +23,11 @@ class Boid {
     }
 
     applyForce(boids, force) {
-        let perceptionRadius = radiusSlider.value(); // 30
         let steering = createVector();
         let total = 0;
         for (let other of boids) {
             let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
-            if (other != this && d < perceptionRadius) {
+            if (other != this && d < this.perceptionRadius) {
                 if (force == "align") {
                     steering.add(other.velocity);
                 } else if (force == "cohesion") {

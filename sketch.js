@@ -4,7 +4,15 @@ let alignSlider, cohesionSlider, separationSlider;
 
 function setup() {
     createCanvas(1500, 700);
+
     textSize(35);
+
+    input = createDiv('<textarea name="input" rows="10" cols="30"> </textarea>');
+    input.position(10, 50);
+
+    button = createButton('submit');
+    button.position(200, 200);
+    //button.mousePressed(function);
 
     alignSlider = createSlider(0, 5, 1, 0.1);
     alignSlider.position(10, 390);
@@ -12,14 +20,8 @@ function setup() {
     cohesionSlider.position(10, 420);
     separationSlider = createSlider(0, 5, 1, 0.1);
     separationSlider.position(10, 450);
-    maxForceSlider = createSlider(0, 1, 0.5, 0.1);
-    maxForceSlider.position(10, 480);
-    maxSpeedSlider = createSlider(0, 10, 5, 1);
-    maxSpeedSlider.position(10, 510);
-    radiusSlider = createSlider(0, 100, 30, 10);
-    radiusSlider.position(10, 540);
 
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 100; i++) {
         flock.push(new Boid());
     }
 }
@@ -30,9 +32,6 @@ function draw() {
     text('alignment', alignSlider.x * 2 + alignSlider.width, 405);
     text('cohesion', cohesionSlider.x * 2 + cohesionSlider.width, 435);
     text('separation', cohesionSlider.x * 2 + cohesionSlider.width, 465);
-    text('maxForce', maxForceSlider.x * 2 + maxForceSlider.width, 495);
-    text('maxSpeed', maxSpeedSlider.x * 2 + maxSpeedSlider.width, 525);
-    text('radius', radiusSlider.x * 2 + radiusSlider.width, 555);
 
     for (let boid of flock) {
         boid.edges();
