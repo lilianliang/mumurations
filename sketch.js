@@ -12,7 +12,7 @@ function setup() {
 
     button = createButton('submit');
     button.position(200, 200);
-    //button.mousePressed(function);
+    button.mousePressed(Poem);
 
     alignSlider = createSlider(0, 5, 1, 0.1);
     alignSlider.position(10, 390);
