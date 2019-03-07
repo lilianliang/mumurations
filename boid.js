@@ -1,3 +1,9 @@
+var ForceEnum = {
+    ALIGNMENT: "alignment",
+    COHESION: "cohesion",
+    SEPARATION: "separation",
+};
+
 class Boid {
     constructor() {
         this.position = createVector(random(width), random(height));
@@ -28,11 +34,11 @@ class Boid {
         for (let other of boids) {
             let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
             if (other != this && d < this.perceptionRadius) {
-                if (force == "align") {
+                if (force == ForceEnum.ALIGNMENT) {
                     steering.add(other.velocity);
-                } else if (force == "cohesion") {
+                } else if (force == ForceEnum.COHESION) {
                     steering.add(other.position);
-                } else if (force == "separation") {
+                } else if (force == ForceEnum.SEPARATION) {
                     let diff = p5.Vector.sub(this.position, other.position);
                     diff.div(Math.pow(d, 2));
                     steering.add(diff);
@@ -42,7 +48,7 @@ class Boid {
         }
         if (total > 0) {
             steering.div(total);
-            if (force == "cohesion") {
+            if (force == ForceEnum.COHESION) {
                 steering.sub(this.position);
             }
             steering.setMag(this.maxSpeed);
@@ -52,14 +58,14 @@ class Boid {
         return steering;
     }
 
-    flock(boids) {
-        let alignment = this.applyForce(boids, "align");
-        let cohesion = this.applyForce(boids, "cohesion");
-        let separation = this.applyForce(boids, "separation");
+    flock(boids, alignmentWeight, cohesionWeight, separationWeight) {
+        let alignment = this.applyForce(boids, ForceEnum.ALIGNMENT);
+        let cohesion = this.applyForce(boids, ForceEnum.COHESION);
+        let separation = this.applyForce(boids, ForceEnum.SEPARATION);
 
         alignment.mult(alignSlider.value());
         cohesion.mult(cohesionSlider.value());
-        separation.mult(separationSlider.value());
+        separation.mult(separationWeight);
 
         this.acceleration.add(alignment);
         this.acceleration.add(cohesion);

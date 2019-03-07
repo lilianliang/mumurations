@@ -1,8 +1,11 @@
 function Poem() {
-    this.poemText = document.getElementsByName('input')[0].value;
-    var numberOfLineBreaks = (this.poemText.match(/^\n/gm)||[]).length;
-    console.log(numberOfLineBreaks);
-    console.log(this.poemText);
+    this.rawText = document.getElementsByName('input')[0].value.replace(/^\n/gm, '<NL>\n');
+    this.lines = this.rawText.split('\n');
+    this.currLine = 0;
+}
+
+Poem.prototype.incrementLine = function() {
+    ++this.currLine;
 }
 
 Poem.prototype.separationWeight = function() {

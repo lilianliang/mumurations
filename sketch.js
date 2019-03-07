@@ -2,8 +2,14 @@ const flock = [];
 
 let alignSlider, cohesionSlider, separationSlider;
 
+let poem;
+
+let currTime;
+
 function setup() {
     createCanvas(1500, 700);
+
+    currTime = millis();
 
     textSize(35);
 
@@ -12,7 +18,7 @@ function setup() {
 
     button = createButton('submit');
     button.position(200, 200);
-    button.mousePressed(Poem);
+    button.mousePressed(poem = new Poem());
 
     alignSlider = createSlider(0, 5, 1, 0.1);
     alignSlider.position(10, 390);
@@ -33,9 +39,15 @@ function draw() {
     text('cohesion', cohesionSlider.x * 2 + cohesionSlider.width, 435);
     text('separation', cohesionSlider.x * 2 + cohesionSlider.width, 465);
 
+    // Update line every 3 seconds
+    if (millis() > currTime + 3000) {
+        poem.incrementLine();
+        currTime = millis();
+    }
+
     for (let boid of flock) {
         boid.edges();
-        boid.flock(flock);
+        boid.flock(flock, 0, 0, 0);
         boid.update();
         boid.show();
     }
