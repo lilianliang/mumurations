@@ -11,6 +11,9 @@ function setup() {
 
     currTime = millis();
 
+    poem = new Poem();
+    console.log(poem);
+
     textSize(35);
 
     input = createDiv('<textarea name="input" rows="10" cols="30"> </textarea>');
@@ -18,7 +21,7 @@ function setup() {
 
     button = createButton('submit');
     button.position(200, 200);
-    button.mousePressed(poem = new Poem());
+    button.mousePressed(poem.updatePoem);
 
     alignSlider = createSlider(0, 5, 1, 0.1);
     alignSlider.position(10, 390);
@@ -39,15 +42,22 @@ function draw() {
     text('cohesion', cohesionSlider.x * 2 + cohesionSlider.width, 435);
     text('separation', cohesionSlider.x * 2 + cohesionSlider.width, 465);
 
-    // Update line every 3 seconds
+    // Update every 3 seconds
     if (millis() > currTime + 3000) {
+        console.log(poem);
+        poem.updateSeparationWeight();
+        // console.log(poem.lines[poem.currLine]);
+        // console.log(poem.separationWeight);
+
         poem.incrementLine();
+        //console.log(poem.currLine);
+        //console.log(poem.lines);
         currTime = millis();
     }
 
     for (let boid of flock) {
         boid.edges();
-        boid.flock(flock, 0, 0, 0);
+        boid.flock(flock, poem.getAlignmentWeight(), poem.getCohesionWeight(), poem.getSeparationWeight());
         boid.update();
         boid.show();
     }
