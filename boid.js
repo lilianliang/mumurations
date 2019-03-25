@@ -1,4 +1,4 @@
-var ForceEnum = {
+const ForceEnum = {
     ALIGNMENT: "alignment",
     COHESION: "cohesion",
     SEPARATION: "separation",
@@ -64,8 +64,8 @@ class Boid {
         let separation = this.applyForce(boids, ForceEnum.SEPARATION);
 
         alignment.mult(alignSlider.value());
-        cohesion.mult(cohesionSlider.value());
-        separation.mult(separationWeight);
+        cohesion.mult(cohesionWeight);
+        separation.mult(separationSlider.value());
 
         this.acceleration.add(alignment);
         this.acceleration.add(cohesion);

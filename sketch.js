@@ -45,19 +45,18 @@ function draw() {
     // Update every 3 seconds
     if (millis() > currTime + 3000) {
         console.log(poem);
+        poem.updateCohesionWeight();
         poem.updateSeparationWeight();
-        // console.log(poem.lines[poem.currLine]);
-        // console.log(poem.separationWeight);
+        console.log(poem.lines[poem.currLine]);
+        console.log("cohesion weight: " + poem.cohesionWeight);
 
         poem.incrementLine();
-        //console.log(poem.currLine);
-        //console.log(poem.lines);
         currTime = millis();
     }
 
     for (let boid of flock) {
         boid.edges();
-        boid.flock(flock, poem.getAlignmentWeight(), poem.getCohesionWeight(), poem.getSeparationWeight());
+        boid.flock(flock, poem.alignmentWeight, poem.cohesionWeight, poem.separationWeight);
         boid.update();
         boid.show();
     }
